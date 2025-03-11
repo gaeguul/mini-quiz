@@ -107,10 +107,11 @@ const retryButton = document.getElementById('retry-btn');
 const mainMenu = document.getElementById('main-menu');
 const quizContainer = document.querySelector('.quiz-container');
 const editContainer = document.getElementById('edit-container');
+const addContainer = document.getElementById('add-container');
 
 const startQuizBtn = document.getElementById('start-quiz-btn');
 const editQuizBtn = document.getElementById('edit-quiz-btn');
-const backToMenuBtn = document.getElementById('back-to-menu-btn');
+const backToMenuBtns = document.querySelectorAll('.back-to-menu-btn');
 
 const questionListEdit = document.getElementById('question-list-edit');
 const saveQuestionBtn = document.getElementById('save-question-btn');
@@ -124,13 +125,41 @@ const newOption4 = document.getElementById('new-option4');
 const newAnswer = document.getElementById('new-answer');
 const newExplanation = document.getElementById('new-explanation');
 
+/** 기능 추가 */
 const openNewQuestionBtn = document.getElementById('open-new-question-btn');
 
-//  화면 전환 함수
+const sideContainer = document.querySelector('.side-container');
+const questionSelector = document.querySelector('.question-selector');
+const finalSubmitBtn = document.querySelector('#final-submit-btn');
+const quizWrapper = document.querySelector('#quiz-wrapper');
+
+function generateQuestionButtons() {
+  const content = questionSelector.querySelector('#content');
+  content.innerHTML = ''; // 기존 내용 초기화
+
+  userAnswers.forEach((_, index) => {
+    const button = document.createElement('div');
+    button.textContent = `${index + 1}`;
+    button.classList.add('go-to-question-btn');
+
+    button.addEventListener('click', () => {
+      currentQuestion = index;
+      loadQuestion();
+    });
+
+    content.appendChild(button);
+  });
+}
+
+// 화면 전환 함수
 function showMainMenu() {
   mainMenu.style.display = 'block';
+  document.querySelector('#go-back-small-btn').classList.add('hide');
   quizContainer.classList.add('hide');
+  sideContainer.classList.add('hide');
   editContainer.classList.add('hide');
+  addContainer.classList.add('hide');
+  showHomePage();
 }
 
 // 퀴즈 시작 시 초기화
@@ -188,6 +217,12 @@ function selectOption() {
   // 사용자 답변 저장
   userAnswers[currentQuestion] = selectedIndex;
 
+  // 문제 번호 버튼에 selected 클래스 추가
+  const questionButtons = document.querySelectorAll('.go-to-question-btn');
+  if (questionButtons && questionButtons[currentQuestion]) {
+    questionButtons[currentQuestion].classList.add('selected');
+  }
+
   updateUI();
 }
 
@@ -200,8 +235,8 @@ function updateUI() {
   nextButton.disabled = currentQuestion === quizData.length - 1;
 
   // 제출 버튼 표시 여부
-  submitButton.style.display =
-    userAnswers[currentQuestion] !== -1 ? 'block' : 'none';
+  // submitButton.style.display =
+  // userAnswers[currentQuestion] !== -1 ? 'block' : 'none';
 
   // 다시 시작 버튼 숨기기
   restartButton.style.display = 'none';
@@ -264,6 +299,7 @@ function submitQuiz() {
 
   // 점수 업데이트
   document.getElementById('score').textContent = score;
+  document.getElementById('total').textContent = quizData.length;
 
   // 기본적으로 전체 문제 보여줌
   displaySummary(summaryData);
@@ -271,6 +307,9 @@ function submitQuiz() {
   // 결과 섹션 보이게 설정
   document.getElementById('results').classList.remove('hide');
   quizElement.classList.add('hide');
+
+  // 문항 선택 사이드바 없애기
+  sideContainer.classList.add('hide');
 }
 
 // 요약 결과 표시 함수
@@ -331,16 +370,12 @@ nextButton.addEventListener('click', () => {
 
 submitButton.addEventListener('click', checkAnswer);
 
-restartButton.addEventListener('click', () => {
-  if (currentQuestion < quizData.length - 1) {
-    currentQuestion++;
-    loadQuestion();
-    updateUI();
-    resultMessage.textContent = '';
-    quizCompleted = false;
-  } else {
-    submitQuiz();
+finalSubmitBtn.addEventListener('click', () => {
+  if (userAnswers.includes(-1)) {
+    alert('풀지 않은 문제가 존재합니다.');
+    return;
   }
+  submitQuiz();
 });
 
 retryButton.addEventListener('click', showMainMenu);
@@ -409,6 +444,7 @@ function addNewQuestion() {
   loadQuestionsInEdit();
 }
 
+// 퀴즈 시작 버튼 클릭 시 동작하는 함수
 function startQuiz() {
   if (quizData.length === 0) {
     alert('퀴즈 문제가 없습니다. 문제를 추가해주세요.');
@@ -417,87 +453,67 @@ function startQuiz() {
   mainMenu.style.display = 'none';
   quizContainer.classList.remove('hide');
   editContainer.classList.add('hide');
+
+  document.querySelector('#go-back-small-btn').classList.remove('hide'); // 문항선택 사이드바 보이도록 함
+  sideContainer.classList.remove('hide'); // 문항선택 사이드바 보이도록 함
+  generateQuestionButtons();
+
   initQuiz();
 }
 
 function openEditQuiz() {
-  mainMenu.style.display = 'none';
-  quizContainer.classList.add('hide');
-  editContainer.classList.remove('hide');
-  loadQuestionsInEdit();
+  // mainMenu.style.display = 'none';
+  // quizContainer.classList.add('hide');
+  // editContainer.classList.remove('hide');
+  // loadQuestionsInEdit();
+  document.querySelector('#start-quiz-btn').classList.add('hide');
+  document.querySelector('#edit-quiz-btn').classList.add('hide');
+  document.querySelector('#delete-quiz-btn').classList.remove('hide');
+  document.querySelector('#add-quiz-btn').classList.remove('hide');
+  document.querySelector('#go-back-btn').classList.remove('hide');
 }
 
 // 이벤트 리스너 추가
 startQuizBtn.addEventListener('click', startQuiz);
 editQuizBtn.addEventListener('click', openEditQuiz);
-backToMenuBtn.addEventListener('click', showMainMenu);
 saveQuestionBtn.addEventListener('click', addNewQuestion);
+
+for (let i = 0; i < backToMenuBtns.length; i++) {
+  backToMenuBtns[i].addEventListener('click', showMainMenu);
+}
+
+function showHomePage() {
+  document.querySelector('#start-quiz-btn').classList.remove('hide');
+  document.querySelector('#edit-quiz-btn').classList.remove('hide');
+  document.querySelector('#delete-quiz-btn').classList.add('hide');
+  document.querySelector('#add-quiz-btn').classList.add('hide');
+  document.querySelector('#go-back-btn').classList.add('hide');
+}
+
+// 뒤로가기 버튼
+document.querySelector('#go-back-btn').addEventListener('click', () => {
+  showHomePage();
+});
+
+// 기존 문제 삭제 버튼
+document.querySelector('#delete-quiz-btn').addEventListener('click', () => {
+  mainMenu.style.display = 'none';
+  quizContainer.classList.add('hide');
+  editContainer.classList.remove('hide');
+  loadQuestionsInEdit();
+});
+
+document.querySelector('#add-quiz-btn').addEventListener('click', () => {
+  mainMenu.style.display = 'none';
+  quizContainer.classList.add('hide');
+  addContainer.classList.remove('hide');
+});
+
+document.querySelector('#go-back-small-btn').addEventListener('click', () => {
+  showMainMenu();
+});
 
 showMainMenu();
 
 // 퀴즈 초기화
 initQuiz();
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 문제 목록 불러오기 (편집 화면)
-  function loadQuestionsInEdit() {
-    questionListEdit.innerHTML = '';
-    quizData.forEach((q, index) => {
-      const div = document.createElement('div');
-      div.classList.add('edit-question-item');
-      div.innerHTML = `
-        <p>${index + 1}. ${q.question}</p>
-        <button onclick="deleteQuestion(${index})">삭제</button>
-      `;
-      questionListEdit.appendChild(div);
-    });
-  }
-
-  // 문제 삭제 기능
-  window.deleteQuestion = function (index) {
-    quizData.splice(index, 1);
-    loadQuestionsInEdit();
-  };
-
-  // 화면 전환 함수
-  function showMainMenu() {
-    mainMenu.style.display = 'block';
-    quizContainer.classList.add('hide');
-    editContainer.classList.add('hide');
-  }
-
-  function startQuiz() {
-    if (quizData.length === 0) {
-      alert('퀴즈 문제가 없습니다. 문제를 추가해주세요.');
-      return;
-    }
-    mainMenu.style.display = 'none';
-    quizContainer.classList.remove('hide');
-    editContainer.classList.add('hide');
-    initQuiz();
-  }
-
-  function openEditQuiz() {
-    mainMenu.style.display = 'none';
-    quizContainer.classList.add('hide');
-    editContainer.classList.remove('hide');
-    loadQuestionsInEdit();
-  }
-
-  // 이벤트 리스너 추가
-  startQuizBtn.addEventListener('click', startQuiz);
-  editQuizBtn.addEventListener('click', openEditQuiz);
-  backToMenuBtn.addEventListener('click', showMainMenu);
-  saveQuestionBtn.addEventListener('click', addNewQuestion);
-
-  function openNewQuestion() {
-    document
-      .getElementById('new-question-input-container')
-      .classList.remove('hide');
-  }
-
-  // 새 문제 추가 클릭 시 문제 입력하는 필드 보이도록 함
-  openNewQuestionBtn.addEventListener('click', openNewQuestion);
-
-  showMainMenu();
-});
