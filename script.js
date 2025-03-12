@@ -423,6 +423,8 @@ function addNewQuestion() {
   ) {
     alert('모든 필드를 올바르게 입력해주세요.');
     return;
+  } else {
+    alert('문제가 추가됐습니다.');
   }
 
   const newQuestion = {
