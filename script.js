@@ -397,7 +397,9 @@ function loadQuestionsInEdit() {
 // 문제 삭제 기능
 window.deleteQuestion = function (index) {
   quizData.splice(index, 1);
+  userAnswers = new Array(quizData.length).fill(-1);
   loadQuestionsInEdit();
+  generateQuestionButtons();
 };
 
 // 새 문제 추가 기능
@@ -431,6 +433,7 @@ function addNewQuestion() {
   };
 
   quizData.push(newQuestion);
+  userAnswers = new Array(quizData.length).fill(-1);
 
   // 입력 폼 초기화
   newQuestionInput.value = '';
@@ -442,6 +445,7 @@ function addNewQuestion() {
   newExplanation.value = '';
 
   loadQuestionsInEdit();
+  generateQuestionButtons();
 }
 
 // 퀴즈 시작 버튼 클릭 시 동작하는 함수
