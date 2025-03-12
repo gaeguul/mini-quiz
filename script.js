@@ -133,6 +133,11 @@ const questionSelector = document.querySelector('.question-selector');
 const finalSubmitBtn = document.querySelector('#final-submit-btn');
 const quizWrapper = document.querySelector('#quiz-wrapper');
 
+/** 타이머 관련 변수*/
+let timer = null;
+const timerElement = document.getElementById('timer');
+const timerCircle = document.querySelector('.timer-circle');
+
 function generateQuestionButtons() {
   const content = questionSelector.querySelector('#content');
   content.innerHTML = ''; // 기존 내용 초기화
@@ -171,11 +176,40 @@ function initQuiz() {
 
   loadQuestion();
   updateUI();
+  startTimer();
 
   quizElement.classList.remove('hide');
   resultsElement.classList.add('hide');
   resultMessage.textContent = '';
   resultMessage.className = '';
+}
+
+// 타이머 시작
+function startTimer() {
+  let timelimit = 10 * quizData.length;
+  let quiztime = timelimit;
+
+  timerCircle.style.background =
+    'conic-gradient(#60584c 0deg 360deg, #60584c 0deg 360deg)';
+  timerElement.textContent = timelimit;
+
+  if (timer) {
+    clearInterval(timer);
+  }
+
+  timer = setInterval(function () {
+    const degrees = (timelimit / quiztime) * 360; // 전체 360도 중에 진행한 비율 계산
+    timerCircle.style.background = `conic-gradient(#ffcb3b 0deg ${
+      360 - degrees
+    }deg, #60584c ${360 - degrees}deg 360deg)`;
+
+    if (timelimit <= 0) {
+      clearInterval(timer);
+      submitQuiz(); // 시간 초과 시 자동 제출
+    } else {
+      timerElement.textContent = timelimit--;
+    }
+  }, 1000);
 }
 
 // 현재 문제 로드
