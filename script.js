@@ -1,85 +1,65 @@
 // 퀴즈 문제 데이터
 const quizData = [
   {
-    question: 'HTML에서 목록을 만들 때 사용하는 태그가 아닌 것은?',
-    options: ['ul', 'ol', 'dl', 'ml'],
-    answer: 3, // <ml>
-    explanation:
-      '<ul>은 순서가 없는 목록, <ol>은 순서가 있는 목록, <dl>은 정의 목록을 만드는 태그입니다. <ml>은 존재하지 않는 태그입니다.',
+    question: '출석률이 77%인 경우의 지원금은?',
+    options: ['316,000원', '284,400원', '지급되지 않음', '500,000원'],
+    answer: 2, // 지급되지 않음
+    explanation: '출석률이 77%인 경우 지급되지 않습니다.',
   },
   {
-    question: 'CSS에서 요소의 외부 여백을 설정하는 속성은?',
-    options: ['padding', 'margin', 'border', 'spacing'],
-    answer: 1, // margin
-    explanation:
-      'margin은 요소의 외부 여백, padding은 요소의 내부 여백, border는 테두리를 설정합니다.',
+    question: '교육 지원금은 주로 어떤 계좌로 지급되나요?',
+    options: ['신한은행 계좌', '국민은행 계좌', '우리은행 계좌', '농협 계좌'],
+    answer: 1, // 국민은행 계좌
+    explanation: '지급받는 계좌는 반드시 KB국민은행 계좌여야 합니다.',
   },
   {
-    question: 'JavaScript에서 변수를 선언하는 키워드가 아닌 것은?',
-    options: ['var', 'let', 'const', 'function'],
-    answer: 3, // function
-    explanation:
-      'var, let, const는 변수 선언 키워드입니다. function은 함수를 선언하는 키워드입니다.',
+    question: '모든 커뮤니케이션은 무엇을 통해 진행하나요?',
+    options: ['이메일', '슬랙(SLACK)', '카카오톡', '문자메시지'],
+    answer: 1, // 슬랙(SLACK)
+    explanation: '모든 커뮤니케이션은 슬랙(SLACK)을 통해 진행됩니다.',
   },
   {
-    question: 'HTML5에서 추가된 의미론적(Semantic) 태그는?',
-    options: ['div', 'span', 'section', 'pre'],
-    answer: 2, // <section>
+    question: '교육 보안 규범에 따라 금지된 사항은?',
+    options: ['출석 체크', '소통하기', '수업을 유출하기', '질문하기'],
+    answer: 2, // 수업을 유출하기
     explanation:
-      'section은 HTML5에서 추가된 의미론적 태그입니다. div와 span은 기존 HTML에도 있던 비의미론적 태그입니다. <content>는 존재하지 않는 태그입니다.',
+      '수업 내용을 유출하는 것은 보안 규범에 의해 금지되어 있습니다.',
   },
   {
-    question:
-      'CSS에서 flexbox 레이아웃의 주축(main axis) 방향을 설정하는 속성은?',
-    options: ['flex-wrap', 'flex-direction', 'justify-content', 'align-items'],
-    answer: 1, // flex-direction
-    explanation:
-      'flex-direction은 주축 방향을 설정합니다. flex-wrap은 아이템의 줄바꿈, justify-content는 주축 기준 정렬, align-items는 교차축 기준 정렬을 담당합니다.',
+    question: '자유게시판에 올릴 수 있는 항목이 아닌 것은?',
+    options: ['맛집 공유', '취업 지원 상담', '스터디 모집', '강의 내용 질문'],
+    answer: 3, // 강의 내용 질문
+    explanation: '강의 내용에 대한 질문은 자유게시판에 올릴 수 없습니다.',
   },
   {
-    question: 'JavaScript에서 배열의 끝에 새 요소를 추가하는 메서드는?',
-    options: [
-      'array.push()',
-      'array.pop()',
-      'array.shift()',
-      'array.unshift()',
-    ],
-    answer: 0, // array.push()
-    explanation:
-      'push()는 배열 끝에 요소를 추가합니다. pop()은 배열 끝 요소를 제거, shift()는 배열 앞 요소를 제거, unshift()는 배열 앞에 요소를 추가합니다.',
+    question: '훈련생이 수업 중 비속어를 사용하는 경우 어떤 조치가 취해지나요?',
+    options: ['재훈련', '경고', '무관심', '제적'],
+    answer: 1, // 경고
+    explanation: '비속어 사용 시에는 경고가 주어집니다.',
   },
   {
-    question: 'HTML에서 이미지를 삽입하는 태그는?',
-    options: ['image', 'img', 'picture', 'figure'],
-    answer: 1, // <img>
-    explanation:
-      'img는 이미지를 삽입하는 기본 태그입니다. picture는 반응형 이미지를 위한 컨테이너, figure는 독립적인 콘텐츠를 위한 컨테이너입니다.',
+    question: '6기 훈련생의 출석 기준을 위한 단위 기간은?',
+    options: ['1개월', '3개월', '6개월', '1주'],
+    answer: 1, // 1개월
+    explanation: '단위 기간은 1개월로 설정되어 있습니다.',
   },
   {
-    question: 'CSS에서 요소를 화면에서 완전히 사라지게 하는 속성과 값은?',
-    options: [
-      'visibility: hidden',
-      'opacity: 0',
-      'display: none',
-      'position: absolute',
-    ],
-    answer: 2, // display: none
-    explanation:
-      'display: none은 요소를 화면에서 완전히 제거합니다. visibility: hidden은 요소를 보이지 않게 하지만 공간은 유지, opacity: 0은 투명하게 만듭니다.',
+    question: '훈련생의 의무로 수업에 참여하지 않은 경우, 정확한 조치 유형은?',
+    options: ['결석 처리', '재수강', '경고', '자유 의사'],
+    answer: 0, // 결석 처리
+    explanation: '수업에 참여하지 않은 경우 결석 처리됩니다.',
   },
   {
-    question: 'JavaScript에서 조건에 따라 코드를 실행하는 문법이 아닌 것은?',
-    options: ['if-else', 'switch', 'for', 'try-catch'],
-    answer: 2, // for
-    explanation:
-      'for는 반복문입니다. if-else, switch는 조건문, try-catch는 예외처리를 위한 구문입니다.',
+    question: '다음 중 훈련생으로서 준수해야 할 사항이 아닌 것은?',
+    options: ['사생활 보호', '출결 관리', '기밀 사항 유출', '소통의 유지'],
+    answer: 2, // 기밀 사항 유출
+    explanation: '기밀 사항 유출은 준수해야 할 사항이 아닙니다.',
   },
   {
-    question: 'HTML 문서의 메타데이터를 포함하는 태그는?',
-    options: ['body', 'main', 'head', 'header'],
-    answer: 2, // <head>
-    explanation:
-      '<head>는 문서의 메타데이터를 포함합니다. body는 문서의 내용, main은 주요 콘텐츠, header는 소개나 탐색 링크를 포함합니다.',
+    question: '출석률 미달한 훈련생에게는 어떤 조치가 내려지나요?',
+    options: ['무조건 합격', '제적', '장려금 지급', '우대 조치'],
+    answer: 1, // 제적
+    explanation: '출석률 미달 시 제적 조치가 내려집니다.',
   },
 ];
 
