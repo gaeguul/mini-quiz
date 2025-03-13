@@ -186,7 +186,7 @@ function initQuiz() {
 
 // 타이머 시작
 function startTimer() {
-  let timelimit = 10 * quizData.length;
+  let timelimit = 2 * quizData.length;
   let quiztime = timelimit;
 
   timerCircle.style.background =
