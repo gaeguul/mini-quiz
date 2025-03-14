@@ -217,10 +217,13 @@ body {
 }
 
 /*  버튼 스타일 */
-.button-container {
+#button-container {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   gap: 10px;
+  /* width: 400px; */
 }
 
 .navigation-btn,
@@ -418,7 +421,7 @@ button:disabled {
 #main-menu {
   /* background-color: var(--main-color); */
   width: 100%;
-  max-width: 400px;
+  /* max-width: 400px; */
   border-radius: 10px;
   box-shadow: var(--box-shadow);
   text-align: center;
@@ -430,8 +433,20 @@ button:disabled {
   margin-bottom: 20px;
 }
 
+#main-menu h2 {
+  font-size: 64px;
+  color: var(--main-color);
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+#main-menu h3 {
+  font-size: 24px;
+  color: var(--main-color);
+}
+
 #main-menu button {
-  width: 100%;
+  width: 400px;
   padding: var(--button-padding);
   margin: 10px 0;
   font-size: var(--subtitle-size);
